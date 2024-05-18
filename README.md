@@ -24,7 +24,7 @@ This guide details the steps to get the application up and running on your local
    Run the following command, replacing `<url>` with the actual repository URL:
 
    ```bash
-    git clone <url>
+    git clone https://github.com/Meru45/Basic-PayTM.git
     cd <repository_name>
 
    ```
@@ -65,7 +65,7 @@ This guide details the steps to get the application up and running on your local
    npm install
    ```
 
-   - Start server;
+   - Start server:
 
    ```bash
    npm start
