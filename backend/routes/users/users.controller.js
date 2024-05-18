@@ -5,8 +5,11 @@ async function httpFilteredUsers(req, res) {
 
   try {
     const users = await getUsers(filteringValue);
+    const actualUsers = users.filter((user) => {
+      return !(user.email == req.email);
+    });
     return res.status(200).json({
-      users,
+      users: actualUsers,
     });
   } catch (err) {
     return res.status(500).json({
