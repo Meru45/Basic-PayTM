@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import { Button } from "./Button.jsx";
@@ -41,6 +42,12 @@ export function Users() {
 }
 
 export function User({ user }) {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/send?id=${user._id}&name=${user.firstName}`);
+  };
+
   return (
     <div className="flex justify-between">
       <div className="flex">
@@ -57,7 +64,7 @@ export function User({ user }) {
         </div>
       </div>
       <div className="flex flex-col justify-center h-full">
-        <Button>Send Money</Button>
+        <Button onClick={handleClick}>Send Money</Button>
       </div>
     </div>
   );

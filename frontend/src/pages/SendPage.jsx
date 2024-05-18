@@ -1,5 +1,32 @@
-export default function SendPage() {
-  const name = "Mayur";
+import { memo, useState, useCallback } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
+import axios from "axios";
+
+const SendPage = memo(function SendPage() {
+  const [amount, setAmount] = useState(0);
+  const [msg, setMsg] = useState("");
+  const [searchParams] = useSearchParams();
+  const name = searchParams.get("name");
+  const id = searchParams.get("id");
+  const navigate = useNavigate();
+
+  const handleClick = async () => {
+    const response = await axios.post(
+      "http://localhost:3000/api/v1/account/transfer",
+      {
+        to: id,
+        amount: Number(amount),
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      },
+    );
+
+    setMsg(response.data.msg);
+    navigate("/dashboard");
+  };
 
   return (
     <div className="flex justify-center h-screen bg-gray-100">
@@ -12,10 +39,12 @@ export default function SendPage() {
             <div className="flex items-center space-x-4">
               <div className="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center">
                 <span className="text-2xl text-white">
-                  {name[0].toUpperCase()}
+                  {name.charAt(0).toUpperCase()}
                 </span>
               </div>
-              <h3 className="text-2xl font-semibold">{name}</h3>
+              <h3 className="text-2xl font-semibold">
+                {name.charAt(0).toUpperCase() + name.slice(1)}
+              </h3>
             </div>
             <div className="space-y-4">
               <div className="space-y-2">
@@ -26,13 +55,21 @@ export default function SendPage() {
                   Amount (in Rs)
                 </label>
                 <input
+                  value={amount}
+                  onChange={useCallback(
+                    (e) => setAmount(e.target.value),
+                    [amount],
+                  )}
                   type="number"
                   className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
                   id="amount"
                   placeholder="Enter amount"
                 />
               </div>
-              <button className="justify-center rounded-md text-sm font-medium ring-offset-background transition-colors h-10 px-4 py-2 w-full bg-green-500 text-white">
+              <button
+                onClick={handleClick}
+                className="justify-center rounded-md text-sm font-medium ring-offset-background transition-colors h-10 px-4 py-2 w-full bg-green-500 text-white"
+              >
                 Initiate Transfer
               </button>
             </div>
@@ -41,4 +78,6 @@ export default function SendPage() {
       </div>
     </div>
   );
-}
+});
+
+export default SendPage;
