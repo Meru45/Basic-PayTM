@@ -1,0 +1,16 @@
+{
+  "name": "paytm-basic",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install-backend": "npm install --prefix backend",
+    "install-frontend": "npm install --prefix frontend",
+    "install-paytm": "npm run install-backend && npm run install-frontend",
+    "start": "npm run build --prefix frontend"
+  },
+  "keywords": [],
+  "author": "meru45",
+  "license": "ISC"
+}
